@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Input, Button, Modal, message } from 'antd';
-import { getNews,addNews } from '../../services/api';
+// import { getNews,addNews } from '../../services/api';
+import { addNews, deleteNews, getNews, updateNews } from '../../services/api';
 import NewsForm from '../../components/NewsForm';
 import NewsList from '../../components/NewsList';
-
+import { Link } from 'react-router-dom';
 
 const { Header, Content } = Layout;
+// const { Search } = Input;
 
 const Dashboard: React.FC = () => {
   const [news, setNews] = useState([]);
@@ -38,6 +40,37 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  const handleEdit = async (newsItem: any) => {
+    try {
+      console.log("Editing News Item:", newsItem);
+      if (newsItem && newsItem.id) {
+        await updateNews(newsItem.id, newsItem);
+        setEditingNews(null);
+        setIsModalVisible(false);
+        loadNews();
+        message.success('News updated successfully');
+      } else {
+        throw new Error('Invalid news item or missing ID');
+      }
+    } catch (error) {
+      message.error('Failed to update news');
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteNews(id);
+      loadNews();
+      message.success('News deleted successfully');
+    } catch (error) {
+      message.error('Failed to delete news');
+    }
+  };
+
+  // const handleSearch = (value: string) => {
+  //   const filtered = news.filter((item: any) => item.title.includes(value) || item.content.includes(value));
+  //   setFilteredNews(filtered);
+  // };
 
   const openModal = (newsItem = null) => {
     setEditingNews(newsItem);
@@ -55,16 +88,18 @@ const Dashboard: React.FC = () => {
       
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h1 style={{ color: 'white' }}>News Dashboard</h1>
-
+          {/* <Search placeholder="Search news" onSearch={handleSearch} style={{ width: 300 }} /> */}
           <Button type="primary" onClick={() => openModal()}>Add News</Button>
-          
+          <Link to="/">
+            <Button type="primary">Home</Button>
+          </Link>
         </div>
-</Header>
+      </Header>
       <Content style={{ padding: '20px' }}>
         <NewsList
           news={filteredNews}
           onEdit={(item) => openModal(item)}
-          onDelete={handleAdd}
+          onDelete={handleDelete}
         />
       </Content>
       {isModalVisible && (
@@ -76,7 +111,7 @@ const Dashboard: React.FC = () => {
         >
           <NewsForm
             initialValues={editingNews !== null ? editingNews : {}}
-            onSubmit={handleAdd}
+            onSubmit={editingNews ? handleEdit : handleAdd}
           />
         </Modal>
       )}
