@@ -95,10 +95,12 @@ const Dashboard: React.FC = () => {
       
         <div className="nav-dash" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'unset' }}>
           <Link to={"/"}><h1 style={{ color: 'white' }}><i className="fa-regular fa-newspaper"></i>&nbsp;&nbsp;News 24h</h1></Link>
-          <Search placeholder="Search news" onSearch={handleSearch} style={{ width: 500, margin: 15 }} />
-          <Button type="primary" style={{ marginTop: 15}} onClick={() => openModal()}>Add News</Button>
+          <Search placeholder="Search news" onSearch={handleSearch} style={{ width: 500, margin: 15}} />
+          <Button type="primary" style={{ marginTop: 16, marginRight: -170 }} onClick={() => openModal()}>
+            <i className="fa-regular fa-folder-open"></i>&nbsp;&nbsp;
+              Add News</Button>
           <Link to="/">
-            <Button type="primary">Home</Button>
+            <Button type="primary"><i className="fa-solid fa-backward"></i>&nbsp;&nbsp;Home</Button>
           </Link>
         </div>
       </Header>
