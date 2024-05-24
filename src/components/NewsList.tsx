@@ -1,5 +1,5 @@
+import { Button, List } from 'antd';
 import React from 'react';
-import { List, Button } from 'antd';
 
 interface NewsListProps {
   news: any[];
@@ -14,7 +14,10 @@ const NewsList: React.FC<NewsListProps> = ({ news, onEdit, onDelete }) => {
       dataSource={news}
       renderItem={item => (
         <List.Item
-          
+          actions={[
+            <Button onClick={() => onEdit(item)}>Edit</Button>,
+            <Button danger onClick={() => onDelete(item.id)}>Delete</Button>
+          ]}
         >
           <List.Item.Meta
             title={item.title}
