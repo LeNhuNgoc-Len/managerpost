@@ -1,13 +1,13 @@
-import { Button, Layout, Modal, message } from 'antd';
-import Search from 'antd/es/input/Search';
+import { Button, Input, Layout, Modal, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import NewsForm from '../../components/NewsForm';
 import NewsList from '../../components/NewsList';
 import { addNews, deleteNews, getNews, updateNews } from '../../services/api';
-
+import './Home.css';
 
 const { Header, Content } = Layout;
+const { Search } = Input;
 
 const Dashboard: React.FC = () => {
   const [news, setNews] = useState([]);
@@ -42,9 +42,10 @@ const Dashboard: React.FC = () => {
 
   const handleEdit = async (newsItem: any) => {
     try {
-      console.log("Editing News Item:", newsItem);
       if (newsItem && newsItem.id) {
-        await updateNews(newsItem.id, newsItem);
+        console.log('Editing news item:', newsItem); // Log the news item
+        const response = await updateNews(newsItem.id, newsItem);
+        console.log('Update response:', response); // Log the response
         setEditingNews(null);
         setIsModalVisible(false);
         loadNews();
@@ -53,9 +54,11 @@ const Dashboard: React.FC = () => {
         throw new Error('Invalid news item or missing ID');
       }
     } catch (error) {
+      console.error('Update error:', error);
       message.error('Failed to update news');
     }
   };
+  
 
   const handleDelete = async (id: string) => {
     try {
@@ -68,16 +71,12 @@ const Dashboard: React.FC = () => {
   };
 
   const handleSearch = (value: string) => {
-    const lowercaseValue = value.toLowerCase();
-    
     const filtered = news.filter((item: any) =>
-      item.title.toLowerCase().includes(lowercaseValue) ||
-      item.content.toLowerCase().includes(lowercaseValue)
+      item.title.toLowerCase().includes(value.toLowerCase()) ||
+      item.content.toLowerCase().includes(value.toLowerCase())
     );
-    
     setFilteredNews(filtered);
   };
-  
 
   const openModal = (newsItem = null) => {
     setEditingNews(newsItem);
@@ -91,17 +90,20 @@ const Dashboard: React.FC = () => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Header>
-      
-        <div className="nav-dash" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'unset' }}>
-          <Link to={"/"}><h1 style={{ color: 'white' }}><i className="fa-regular fa-newspaper"></i>&nbsp;&nbsp;News 24h</h1></Link>
-          <Search placeholder="Search news" onSearch={handleSearch} style={{ width: 500, margin: 15}} />
-          <Button type="primary" style={{ marginTop: 16, marginRight: -170 }} onClick={() => openModal()}>
+      <Header className="header">
+        <Link to="/" type="primary" className="large-button">
+          <h1><i className="fa-regular fa-newspaper"></i>&nbsp;&nbsp;News 24h</h1>
+        </Link>
+        <Search
+          placeholder="Search news"
+          onSearch={handleSearch}
+          style={{ width: 500, height: 30 }}
+        />
+        <div className="navigation">
+          <Button type="primary" className="large-button" style={{ paddingBottom: 30 }} onClick={() => openModal()}>
             <i className="fa-regular fa-folder-open"></i>&nbsp;&nbsp;
-              Add News</Button>
-          <Link to="/">
-            <Button type="primary"><i className="fa-solid fa-backward"></i>&nbsp;&nbsp;Home</Button>
-          </Link>
+            + Add News
+          </Button>
         </div>
       </Header>
       <Content style={{ padding: '20px' }}>

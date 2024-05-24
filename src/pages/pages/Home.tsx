@@ -26,20 +26,18 @@ const Home: React.FC = () => {
   const filteredNews = news.filter((item: any) =>
     item.title.toLowerCase().includes(searchKeyword.toLowerCase())
   );
-
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Header>
+      <Header className="header">
+      <Link to={"/"} type="primary" className="large-button"><h1><i className="fa-regular fa-newspaper"></i>&nbsp;&nbsp;News 24h</h1></Link>
+        <Search
+          placeholder="Search news"
+          onSearch={handleSearch}
+          style={{ width: 500, height: 30 }}
+        />
         <div className="navigation">
-        <Link to={"/"}><h1 style={{ color: 'white', paddingRight: 250 }}><i className="fa-regular fa-newspaper"></i>&nbsp;&nbsp;News 24h</h1></Link>
-          <Search
-            placeholder="Search news"
-            allowClear
-            onSearch={handleSearch}
-            style={{ width: 500, margin: 15 }}
-          />
           <Link to="/dashboard">
-            <Button type="primary">Dashboard</Button>
+            <Button type="primary" className="large-button">Dashboard</Button>
           </Link>
         </div>
       </Header>
@@ -55,7 +53,11 @@ const Home: React.FC = () => {
                   </div>
                 }
               >
-                <Card.Meta title={item.title} description={item.content.substring(0, 100) + '...'} />
+                <Card.Meta
+                  title={item.title}
+                  description={item.content.substring(0, 100) + '...'}
+                  className="card-meta"
+                />
               </Card>
             </Col>
           ))}

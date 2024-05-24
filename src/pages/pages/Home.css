@@ -1,25 +1,55 @@
-.image-container {
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.image-container img {
-  max-height: 100%;
-  max-width: 100%;
-  object-fit: cover;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 .navigation {
-  float: right;
   display: flex;
-  gap: 100px;
+  align-items: center;
+}
+
+.header {
+  height: 80px; 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #001529;
+  padding: 0 20px;
+}
+
+.header h1 {
+  color: white;
+  margin: 0;
+}
+
+/* .large-button {
+  font-size: 18px;
+  padding-bottom: 10px;
+
+} */
+
+.image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.card-meta {
+  min-height: 100px;
 }
 
 .back-to-top {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
