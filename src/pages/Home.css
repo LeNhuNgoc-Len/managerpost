@@ -14,6 +14,8 @@
 
 .navigation {
     float: right;
+    display: flex;
+    gap: 100px;
   }
   
   .back-to-top {
@@ -21,4 +23,3 @@
     bottom: 20px;
     right: 20px;
   }
-  
